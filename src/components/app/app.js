@@ -14,7 +14,7 @@ class App extends Component {
             data: [
                 { id: 1, task: 'Съездить на отдых', price: 1000, important: true, done: false },
                 { id: 2, task: 'Купить авто', price: 10000, important: false, done: false },
-                { id: 3, task: 'Сделать приложение', price: 0, important: false, done: false }
+                { id: 3, task: 'Сделать приложение', price: 0, important: false, done: true }
             ]
         }
     }
@@ -32,7 +32,7 @@ class App extends Component {
 
     idmax = 4;
     onAddTask = (task, price) => {
-        const newItem = {        //создаем новый элемент списка
+        const newItem = {        //создаем новый элемент списка заданий
             id: this.idmax++,
             task,
             price,
@@ -42,9 +42,21 @@ class App extends Component {
 
         this.setState(({ data }) => {
             return {
-                data: [...data, newItem]   // добавляем новый элемент в конец списка
+                data: [...data, newItem]   // добавляем новый элемент в конец списка заданий
             }
         })
+    }
+
+    // переключатель важно-неважно
+    onToggleProp = (id, prop) => { //передаем айди и элемент по дата-атрибуту из списка
+        this.setState(({ data }) => ({
+            data: data.map(item => { //мапим дату , если айди из даты совпал с айди по клику то переключаем 
+                if (item.id === id) {
+                    return { ...item, [prop]: !item[prop] }
+                }
+                return item;
+            })
+        }))
     }
 
     render() {
@@ -61,7 +73,7 @@ class App extends Component {
                     <AppFilter />
                 </div>
 
-                <TaskList data={this.state.data} onDeleteItem={this.onDeleteItem} onAddTask={this.onAddTask} />
+                <TaskList data={this.state.data} onDeleteItem={this.onDeleteItem} onAddTask={this.onAddTask} onToggleProp={this.onToggleProp} />
                 <TasksAddForm onAddTask={this.onAddTask} />
             </div>
         );

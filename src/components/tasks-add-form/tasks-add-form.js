@@ -32,9 +32,9 @@ class TasksAddForm extends Component {
             <div className="app-add-form">
                 <h3>Добавьте новое задание</h3>
                 <form
-                    onSubmit={this.onAddItem}
+                    onSubmit={this.onAddItem}  //вызываем функцию для формирования нового списка
                     className="add-form d-flex">
-                    <input onChange={this.onValueChange}
+                    <input onChange={this.onValueChange} // из инпутов передаем данные в функцию onValueChange
                         value={task}
                         name='task'
                         type="text"
