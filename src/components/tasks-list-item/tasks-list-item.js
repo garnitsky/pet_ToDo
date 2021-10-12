@@ -1,7 +1,7 @@
 import './tasks-list-item.css';
 
 const TasksListItem = (props) => {
-    const { task, price, important } = props;
+    const { task, price, important, onDeleteItem } = props;
     let classNameImportant = "list-group-item d-flex justify-content-between";
     if (important) {
         classNameImportant += ' increase'
@@ -10,7 +10,7 @@ const TasksListItem = (props) => {
     return (
         <li className={classNameImportant}>
             <span className="list-group-item-label">{task}</span>
-            <input type="text" className="list-group-item-input" defaultValue={price} />
+            <input type="text" className="list-group-item-input" defaultValue={price + '$'} />
             <div className='d-flex justify-content-center align-items-center'>
                 <button type="button"
                     className="btn-cookie btn-sm ">
@@ -18,6 +18,7 @@ const TasksListItem = (props) => {
                 </button>
 
                 <button type="button"
+                    onClick={onDeleteItem}
                     className="btn-trash btn-sm ">
                     <i className="fas fa-trash"></i>
                 </button>
