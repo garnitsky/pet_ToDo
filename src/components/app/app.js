@@ -15,9 +15,11 @@ class App extends Component {
                 { id: 1, task: 'Съездить на отдых', price: 1000, important: true, done: false },
                 { id: 2, task: 'Купить авто', price: 10000, important: false, done: false },
                 { id: 3, task: 'Сделать приложение', price: 0, important: false, done: true }
-            ]
+            ],
+            term: '',
+            filter: ''
         }
-    }
+    };
 
     // удаление задания из списка
     onDeleteItem = (id) => {
@@ -26,7 +28,7 @@ class App extends Component {
                 data: data.filter(item => item.id !== id)
             }
         })
-    }
+    };
 
     // добавление нового задания
 
@@ -45,7 +47,7 @@ class App extends Component {
                 data: [...data, newItem]   // добавляем новый элемент в конец списка заданий
             }
         })
-    }
+    };
 
     // переключатель важно-неважно
     onToggleProp = (id, prop) => { //передаем айди и элемент по дата-атрибуту из списка
@@ -57,27 +59,47 @@ class App extends Component {
                 return item;
             })
         }))
-    }
+    };
+    //поиск задач
+    searchTask = (items, term) => {
+        if (term.length === 0) {
+            return items
+        }
+        return items.filter(item => {
+            return item.task.indexOf(term) > -1
+        })
+
+    };
+
+    onUpdateSearch = (term) => {
+        this.setState({ term });
+    };
 
     render() {
 
         const totalTasks = this.state.data.length;
         const importantTask = this.state.data.filter(item => item.important).length;
+        const doneTask = this.state.data.filter(item => item.done).length;
+        const visibleData = this.searchTask(this.state.data, this.state.term);
         return (
 
             <div className="app" >
-                <AppInfo totalTasks={totalTasks} importantTask={importantTask} />
+                <AppInfo totalTasks={totalTasks} importantTask={importantTask} doneTask={doneTask} />
 
                 <div className="search-panel">
-                    <SearchPanel />
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch} />
                     <AppFilter />
                 </div>
 
-                <TaskList data={this.state.data} onDeleteItem={this.onDeleteItem} onAddTask={this.onAddTask} onToggleProp={this.onToggleProp} />
+                <TaskList data={visibleData}
+                    onDeleteItem={this.onDeleteItem}
+                    onAddTask={this.onAddTask}
+                    onToggleProp={this.onToggleProp}
+                />
                 <TasksAddForm onAddTask={this.onAddTask} />
             </div>
         );
-    }
+    };
 }
 
 export default App;

@@ -13,7 +13,7 @@ const TasksListItem = (props) => {
 
     return (
         <li className={classNameImportant}>
-            <span className="list-group-item-label">{task}</span>
+            <span className="list-group-item-label" onClick={onToggleProp} data-toggle="done">{task}</span>
             <input type="text" className="list-group-item-input" defaultValue={price + '$'} />
             <div className='d-flex justify-content-center align-items-center'>
                 <button type="button"
