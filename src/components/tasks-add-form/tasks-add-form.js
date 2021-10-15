@@ -3,7 +3,6 @@ import './tasks-add-form.css';
 
 class TasksAddForm extends Component {
     constructor(props) {
-        debugger
         super(props);
         this.state = {
             task: '',

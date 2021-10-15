@@ -1,6 +1,7 @@
 .list-group-item {
     padding: 15px 20px;
     border-bottom: 1px solid #000;
+    background-color: rgba(0, 0, 255, .5);
 }
 
 .list-group-item:last-child {
@@ -62,4 +63,13 @@
 .list-group-item.increase .btn-star {
     color: #aeaeae;
 }
-  
+.like{
+    background-color: rgba(255, 0, 0, .9);
+}
+
+.increase{
+    background-color: rgba(0, 255, 0, .5);
+}
+.like.increase{
+    background-color: rgba(255, 255, 0, .5);
+}

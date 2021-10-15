@@ -17,7 +17,7 @@ class App extends Component {
                 { id: 3, task: 'Сделать приложение', price: 0, important: false, done: true }
             ],
             term: '',
-            filter: ''
+            filter: 'all'
         }
     };
 
@@ -65,22 +65,38 @@ class App extends Component {
         if (term.length === 0) {
             return items
         }
-        return items.filter(item => {
-            return item.task.indexOf(term) > -1
-        })
-
-    };
+        else {
+            return (items.filter((item) => {
+                return item.task.indexOf(term) > -1
+            }))
+        }
+    }
 
     onUpdateSearch = (term) => {
         this.setState({ term });
     };
 
-    render() {
+    onFilterSelect = (filter) => {
+        this.setState({ filter });
+    };
 
+    filterPost = (items, filter) => {
+        switch (filter) {
+            case 'important':
+                return items.filter(item => item.important);
+            case 'moreThen1000':
+                return items.filter(item => item.price > 1000);
+            default:
+                return items;
+        }
+    }
+
+    render() {
+        const { data, term, filter } = this.state;
         const totalTasks = this.state.data.length;
         const importantTask = this.state.data.filter(item => item.important).length;
         const doneTask = this.state.data.filter(item => item.done).length;
-        const visibleData = this.searchTask(this.state.data, this.state.term);
+        const visibleData = this.filterPost(this.searchTask(data, term), filter);
         return (
 
             <div className="app" >
@@ -88,12 +104,11 @@ class App extends Component {
 
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-                    <AppFilter />
                 </div>
+                <AppFilter filter={filter} onFilterSelect={this.onFilterSelect} />
 
                 <TaskList data={visibleData}
                     onDeleteItem={this.onDeleteItem}
-                    onAddTask={this.onAddTask}
                     onToggleProp={this.onToggleProp}
                 />
                 <TasksAddForm onAddTask={this.onAddTask} />
